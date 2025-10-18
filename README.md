@@ -202,47 +202,145 @@ http://localhost:8080/h2-console
 
 ### Sample Data
 
-The application automatically initializes with sample data:
-- 3 Owners
-- 5 Properties
-- 5 Guests
+The application automatically initializes with sample data on startup:
+- **3 Owners** (Alice Johnson, Michael Brown, Sarah Davis)
+- **5 Properties** (Beachfront Villa, Mountain Cabin, City Apartment, Desert Oasis, Lake House)
+- **5 Guests** (John Doe, Jane Smith, Bob Wilson, Emily Martinez, David Lee)
 
-You can view this data in the H2 console or through the API endpoints.
+**Note:** The IDs are auto-generated. Check the console logs on startup to see the created IDs.
 
-## API Features (To Be Implemented)
+**Example Console Output:**
+```
+Created Owner: Alice Johnson - ID: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+Created Owner: Michael Brown - ID: b2c3d4e5-f6a7-8901-bcde-f12345678901
+Created Property: Beachfront Villa - ID: d4e5f6a7-b8c9-0123-def1-234567890123 (Owner: Alice)
+Created Property: Mountain Cabin - ID: e5f6a7b8-c9d0-1234-ef12-345678901234 (Owner: Alice)
+...
+```
 
-The REST API will support the following operations:
+Copy these IDs from the logs to use in your API requests or Postman environment variables.
+
+## API Endpoints
 
 ### Booking Operations
-- ✅ Create a booking
-- ✅ Update booking dates and guest details
-- ✅ Cancel a booking
-- ✅ Rebook a canceled booking
-- ✅ Delete a booking from the system
-- ✅ Get a booking
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/api/bookings` | Create a new booking |
+| `GET` | `/api/bookings/{id}` | Get booking by ID |
+| `GET` | `/api/bookings/property/{propertyId}` | Get all bookings for a property |
+| `PUT` | `/api/bookings/{id}` | Update booking (dates and/or guest) |
+| `PATCH` | `/api/bookings/{id}/cancel` | Cancel a booking |
+| `PATCH` | `/api/bookings/{id}/rebook` | Rebook a canceled booking |
+| `DELETE` | `/api/bookings/{id}` | Delete a booking |
 
 ### Block Operations
-- ✅ Create a block
-- ✅ Update a block
-- ✅ Delete a block
 
-### Validation
-- ✅ Prevent overlapping bookings (same property, overlapping dates)
-- ✅ Prevent bookings during blocked periods
-- ✅ Ensure data integrity with proper validation
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/api/blocks` | Create a new block (owner only) |
+| `GET` | `/api/blocks/{id}` | Get block by ID |
+| `GET` | `/api/blocks/property/{propertyId}` | Get all blocks for a property |
+| `PUT` | `/api/blocks/{id}` | Update block (owner only) |
+| `DELETE` | `/api/blocks/{id}?ownerId={ownerId}` | Delete a block (owner only) |
+
+### Validation Rules
+
+- ✅ **No overlapping bookings** - Cannot create/update bookings with overlapping dates for the same property
+- ✅ **No booking during blocks** - Cannot create/update bookings during blocked periods
+- ✅ **No blocks during bookings** - Cannot create/update blocks when property has existing bookings
+- ✅ **Owner authorization** - Only property owners can create/update/delete blocks for their properties
+- ✅ **Date validation** - Start date must be before end date, and cannot be in the past
+- ✅ **Guest management** - Automatically creates or updates guest records based on email
+- ✅ **Booking status** - Prevents updates to canceled bookings (must rebook first)
+
+## API Examples
+
+### Create a Booking
+
+```bash
+curl --location 'http://localhost:8080/api/bookings' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "propertyId": "your-property-uuid",
+    "guestEmail": "john.doe@example.com",
+    "guestFirstName": "John",
+    "guestLastName": "Doe",
+    "startDate": "2025-11-01",
+    "endDate": "2025-11-05"
+}'
+```
+
+### Create a Block (Owner Only)
+
+```bash
+curl --location 'http://localhost:8080/api/blocks' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "ownerId": "your-owner-uuid",
+    "propertyId": "your-property-uuid",
+    "startDate": "2025-12-20",
+    "endDate": "2025-12-31",
+    "reason": "Property maintenance"
+}'
+```
+
+### Update a Booking
+
+```bash
+curl --location --request PUT 'http://localhost:8080/api/bookings/{bookingId}' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "startDate": "2025-11-02",
+    "endDate": "2025-11-06"
+}'
+```
+
+### Cancel a Booking
+
+```bash
+curl --location --request PATCH 'http://localhost:8080/api/bookings/{bookingId}/cancel'
+```
+
+## Postman Collection
+
+A complete Postman collection is available in the `postman/` directory:
+
+- **`Booking-API.postman_collection.json`** - Complete API collection with all endpoints
+- **`Booking-API-Local.postman_environment.json`** - Environment variables for local testing
+
+### Import to Postman:
+1. Open Postman
+2. Click **Import**
+3. Select both files from the `postman/` directory
+4. Select the "Booking API - Local" environment
+5. Update the `ownerId` and `propertyId` variables with actual IDs from your database
 
 ## Project Structure
 
 ```
 src/main/java/com/booking/
-├── config/          # Configuration classes (e.g., DataInitializer)
-├── controller/      # REST controllers
-├── dto/             # Data Transfer Objects
+├── config/          # Configuration classes (DataInitializer)
+├── controller/      # REST controllers (BookingController, BlockController)
+├── dto/             # Data Transfer Objects (Request/Response DTOs)
 ├── exception/       # Custom exception handling
-├── model/           # Entity classes
+├── model/           # Entity classes (Owner, Property, Guest, Booking, Block)
 ├── repository/      # JPA repositories
-└── service/         # Business logic services
+├── service/         # Business logic (BookingService, BlockService, GuestService)
+└── validator/       # Validation logic (BookingValidator)
 ```
+
+## Key Features
+
+- **RESTful API** with proper HTTP methods and status codes
+- **Comprehensive validation** to prevent data conflicts
+- **Owner authorization** for block management
+- **Automatic guest management** based on email
+- **Flexible booking updates** (dates, guest info, or both)
+- **Soft delete** for bookings (cancel/rebook functionality)
+- **Sample data initialization** with detailed logging
+- **H2 in-memory database** for easy testing
+- **Postman collection** for quick API testing
 
 ## License
 
