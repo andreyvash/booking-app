@@ -1,0 +1,449 @@
+{
+	"info": {
+		"_postman_id": "booking-api-collection",
+		"name": "Booking API",
+		"description": "Complete API collection for Booking and Block management",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Bookings",
+			"item": [
+				{
+					"name": "Create Booking",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"propertyId\": \"{{propertyId}}\",\n    \"guestEmail\": \"john.doe@example.com\",\n    \"guestFirstName\": \"John\",\n    \"guestLastName\": \"Doe\",\n    \"startDate\": \"2025-11-01\",\n    \"endDate\": \"2025-11-05\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/bookings",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"bookings"
+							]
+						},
+						"description": "Create a new booking for a property"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Booking by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/bookings/{{bookingId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"bookings",
+								"{{bookingId}}"
+							]
+						},
+						"description": "Retrieve a specific booking by its ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Bookings by Property ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/bookings/property/{{propertyId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"bookings",
+								"property",
+								"{{propertyId}}"
+							]
+						},
+						"description": "Get all bookings for a specific property"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Booking",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"startDate\": \"2025-11-02\",\n    \"endDate\": \"2025-11-06\",\n    \"guestEmail\": \"john.updated@example.com\",\n    \"guestFirstName\": \"Johnny\",\n    \"guestLastName\": \"Doe\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/bookings/{{bookingId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"bookings",
+								"{{bookingId}}"
+							]
+						},
+						"description": "Update booking dates and/or guest information"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Booking - Dates Only",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"startDate\": \"2025-11-03\",\n    \"endDate\": \"2025-11-07\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/bookings/{{bookingId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"bookings",
+								"{{bookingId}}"
+							]
+						},
+						"description": "Update only the booking dates"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Booking - Guest Only",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"guestEmail\": \"jane.smith@example.com\",\n    \"guestFirstName\": \"Jane\",\n    \"guestLastName\": \"Smith\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/bookings/{{bookingId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"bookings",
+								"{{bookingId}}"
+							]
+						},
+						"description": "Update only the guest information"
+					},
+					"response": []
+				},
+				{
+					"name": "Cancel Booking",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/bookings/{{bookingId}}/cancel",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"bookings",
+								"{{bookingId}}",
+								"cancel"
+							]
+						},
+						"description": "Cancel an active booking"
+					},
+					"response": []
+				},
+				{
+					"name": "Rebook Cancelled Booking",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/bookings/{{bookingId}}/rebook",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"bookings",
+								"{{bookingId}}",
+								"rebook"
+							]
+						},
+						"description": "Reactivate a cancelled booking"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Booking",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/bookings/{{bookingId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"bookings",
+								"{{bookingId}}"
+							]
+						},
+						"description": "Permanently delete a booking"
+					},
+					"response": []
+				}
+			],
+			"description": "All booking-related endpoints"
+		},
+		{
+			"name": "Blocks",
+			"item": [
+				{
+					"name": "Create Block",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ownerId\": \"{{ownerId}}\",\n    \"propertyId\": \"{{propertyId}}\",\n    \"startDate\": \"2025-12-20\",\n    \"endDate\": \"2025-12-31\",\n    \"reason\": \"Property maintenance\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/blocks",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"blocks"
+							]
+						},
+						"description": "Create a new block for a property (owner only)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Block by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/blocks/{{blockId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"blocks",
+								"{{blockId}}"
+							]
+						},
+						"description": "Retrieve a specific block by its ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Blocks by Property ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/blocks/property/{{propertyId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"blocks",
+								"property",
+								"{{propertyId}}"
+							]
+						},
+						"description": "Get all blocks for a specific property"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Block",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ownerId\": \"{{ownerId}}\",\n    \"startDate\": \"2025-12-22\",\n    \"endDate\": \"2026-01-02\",\n    \"reason\": \"Extended maintenance\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/blocks/{{blockId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"blocks",
+								"{{blockId}}"
+							]
+						},
+						"description": "Update block dates and/or reason (owner only)"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Block - Dates Only",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ownerId\": \"{{ownerId}}\",\n    \"startDate\": \"2025-12-25\",\n    \"endDate\": \"2026-01-05\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/blocks/{{blockId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"blocks",
+								"{{blockId}}"
+							]
+						},
+						"description": "Update only the block dates"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Block - Reason Only",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ownerId\": \"{{ownerId}}\",\n    \"reason\": \"Renovation work\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/blocks/{{blockId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"blocks",
+								"{{blockId}}"
+							]
+						},
+						"description": "Update only the block reason"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Block",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/blocks/{{blockId}}?ownerId={{ownerId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"blocks",
+								"{{blockId}}"
+							],
+							"query": [
+								{
+									"key": "ownerId",
+									"value": "{{ownerId}}"
+								}
+							]
+						},
+						"description": "Delete a block (owner only)"
+					},
+					"response": []
+				}
+			],
+			"description": "All block-related endpoints"
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "propertyId",
+			"value": "123e4567-e89b-12d3-a456-426614174000",
+			"type": "string"
+		},
+		{
+			"key": "bookingId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "blockId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "ownerId",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
