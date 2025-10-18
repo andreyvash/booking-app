@@ -43,7 +43,7 @@ public class BookingController {
         return ResponseEntity.ok(responses);
     }
 
-    @PutMapping("/{bookingId}")
+    @PatchMapping("/{bookingId}")
     public ResponseEntity<BookingResponse> updateBooking(
             @PathVariable UUID bookingId,
             @Valid @RequestBody BookingUpdateRequest request) {

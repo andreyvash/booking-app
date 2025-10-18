@@ -43,7 +43,7 @@ public class BlockController {
         return ResponseEntity.ok(responses);
     }
 
-    @PutMapping("/{blockId}")
+    @PatchMapping("/{blockId}")
     public ResponseEntity<BlockResponse> updateBlock(
             @PathVariable UUID blockId,
             @Valid @RequestBody BlockUpdateRequest request) {

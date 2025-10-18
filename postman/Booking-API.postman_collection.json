@@ -81,7 +81,7 @@
 				{
 					"name": "Update Booking",
 					"request": {
-						"method": "PUT",
+						"method": "PATCH",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -110,7 +110,7 @@
 				{
 					"name": "Update Booking - Dates Only",
 					"request": {
-						"method": "PUT",
+						"method": "PATCH",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -139,7 +139,7 @@
 				{
 					"name": "Update Booking - Guest Only",
 					"request": {
-						"method": "PUT",
+						"method": "PATCH",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -305,7 +305,7 @@
 				{
 					"name": "Update Block",
 					"request": {
-						"method": "PUT",
+						"method": "PATCH",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -334,7 +334,7 @@
 				{
 					"name": "Update Block - Dates Only",
 					"request": {
-						"method": "PUT",
+						"method": "PATCH",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -363,7 +363,7 @@
 				{
 					"name": "Update Block - Reason Only",
 					"request": {
-						"method": "PUT",
+						"method": "PATCH",
 						"header": [
 							{
 								"key": "Content-Type",

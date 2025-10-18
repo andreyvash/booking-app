@@ -229,7 +229,7 @@ Copy these IDs from the logs to use in your API requests or Postman environment 
 | `POST` | `/api/bookings` | Create a new booking |
 | `GET` | `/api/bookings/{id}` | Get booking by ID |
 | `GET` | `/api/bookings/property/{propertyId}` | Get all bookings for a property |
-| `PUT` | `/api/bookings/{id}` | Update booking (dates and/or guest) |
+| `PATCH` | `/api/bookings/{id}` | Update booking (dates and/or guest) |
 | `PATCH` | `/api/bookings/{id}/cancel` | Cancel a booking |
 | `PATCH` | `/api/bookings/{id}/rebook` | Rebook a canceled booking |
 | `DELETE` | `/api/bookings/{id}` | Delete a booking |
@@ -241,7 +241,7 @@ Copy these IDs from the logs to use in your API requests or Postman environment 
 | `POST` | `/api/blocks` | Create a new block (owner only) |
 | `GET` | `/api/blocks/{id}` | Get block by ID |
 | `GET` | `/api/blocks/property/{propertyId}` | Get all blocks for a property |
-| `PUT` | `/api/blocks/{id}` | Update block (owner only) |
+| `PATCH` | `/api/blocks/{id}` | Update block (owner only) |
 | `DELETE` | `/api/blocks/{id}?ownerId={ownerId}` | Delete a block (owner only) |
 
 ### Validation Rules
@@ -288,7 +288,7 @@ curl --location 'http://localhost:8080/api/blocks' \
 ### Update a Booking
 
 ```bash
-curl --location --request PUT 'http://localhost:8080/api/bookings/{bookingId}' \
+curl --location --request PATCH 'http://localhost:8080/api/bookings/{bookingId}' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "startDate": "2025-11-02",
