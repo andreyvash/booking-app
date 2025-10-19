@@ -3,6 +3,7 @@ package com.booking.validator;
 import com.booking.dto.BookingRequest;
 import com.booking.exception.BookingException;
 import com.booking.exception.ResourceNotFoundException;
+import com.booking.model.Block;
 import com.booking.model.Booking;
 import com.booking.model.BookingStatus;
 import com.booking.repository.BlockRepository;
@@ -79,6 +80,17 @@ public class BookingValidator {
     public void validateBookingNotCanceled(Booking booking) {
         if (booking.getStatus() == BookingStatus.CANCELED) {
             throw new BookingException("Cannot update a cancelled booking. Please rebook it first.");
+        }
+    }
+
+    public void validateNoOverlappingBlocksForUpdate(UUID propertyId, LocalDate startDate, LocalDate endDate, UUID excludeBlockId) {
+        List<Block> overlappingBlocks = blockRepository.findOverlappingBlocks(propertyId, startDate, endDate)
+                .stream()
+                .filter(b -> !b.getId().equals(excludeBlockId))
+                .toList();
+
+        if (!overlappingBlocks.isEmpty()) {
+            throw new BookingException("Property is already blocked for the selected dates");
         }
     }
 }

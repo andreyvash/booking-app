@@ -341,6 +341,38 @@ src/main/java/com/booking/
 - **Sample data initialization** with detailed logging
 - **H2 in-memory database** for easy testing
 - **Postman collection** for quick API testing
+- **Integration tests** with Spring Boot Test
+
+## Running Tests
+
+### Run All Tests
+
+```bash
+# Using Maven Wrapper
+./mvnw test
+
+# Or using Maven
+mvn test
+```
+
+### Run Specific Test Class
+
+```bash
+./mvnw test -Dtest=CreateBookingIT
+```
+
+### Test Coverage
+
+The integration tests cover:
+- ✅ Successful booking creation
+- ✅ Guest creation and update logic
+- ✅ Property validation
+- ✅ Date validation (past dates, start > end)
+- ✅ Overlapping booking detection
+- ✅ Block conflict detection
+- ✅ Adjacent booking scenarios
+- ✅ Canceled booking scenarios
+- ✅ Required field validation
 
 ## License
 

@@ -39,6 +39,7 @@ public class BlockService {
         validateOwnership(request.getPropertyId(), request.getOwnerId());
         bookingValidator.validateDates(request.getStartDate(), request.getEndDate());
         bookingValidator.validatePropertyNotBooked(request.getPropertyId(), request.getStartDate(), request.getEndDate());
+        bookingValidator.validatePropertyNotBlocked(request.getPropertyId(), request.getStartDate(), request.getEndDate());
 
         Block block = saveBlock(request);
         log.info("Block created successfully with id: {}", block.getId());
@@ -59,6 +60,7 @@ public class BlockService {
 
             bookingValidator.validateDates(newStartDate, newEndDate);
             bookingValidator.validatePropertyNotBooked(block.getPropertyId(), newStartDate, newEndDate);
+            bookingValidator.validateNoOverlappingBlocksForUpdate(block.getPropertyId(), newStartDate, newEndDate, blockId);
 
             block.setStartDate(newStartDate);
             block.setEndDate(newEndDate);
