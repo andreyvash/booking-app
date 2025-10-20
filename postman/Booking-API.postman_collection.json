@@ -79,6 +79,27 @@
 					"response": []
 				},
 				{
+					"name": "Get Bookings by Guest ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/bookings/guest/{{guestId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"bookings",
+								"guest",
+								"{{guestId}}"
+							]
+						},
+						"description": "Get all bookings for a specific guest"
+					},
+					"response": []
+				},
+				{
 					"name": "Update Booking",
 					"request": {
 						"method": "PATCH",
@@ -442,6 +463,11 @@
 		},
 		{
 			"key": "ownerId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "guestId",
 			"value": "",
 			"type": "string"
 		}
