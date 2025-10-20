@@ -43,6 +43,13 @@ public class BookingController {
         return ResponseEntity.ok(responses);
     }
 
+    @GetMapping("/guest/{guestId}")
+    public ResponseEntity<List<BookingResponse>> getBookingsByGuestId(@PathVariable UUID guestId) {
+        log.info("Received request to get bookings for guest id: {}", guestId);
+        List<BookingResponse> responses = bookingService.getBookingsByGuestId(guestId);
+        return ResponseEntity.ok(responses);
+    }
+
     @PatchMapping("/{bookingId}")
     public ResponseEntity<BookingResponse> updateBooking(
             @PathVariable UUID bookingId,

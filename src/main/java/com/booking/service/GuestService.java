@@ -80,7 +80,7 @@ public class GuestService {
         return guestRepository.save(currentGuest);
     }
 
-    private Guest getGuestOrThrow(java.util.UUID guestId) {
+    public Guest getGuestOrThrow(java.util.UUID guestId) {
         return guestRepository.findById(guestId)
                 .orElseThrow(() -> new ResourceNotFoundException("Guest not found with id: " + guestId));
     }

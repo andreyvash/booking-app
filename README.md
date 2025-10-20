@@ -172,7 +172,7 @@ Represents a period when a property is unavailable for booking.
 
 ### Prerequisites
 
-- Java 25 or newer
+- Java 21 or newer
 - Maven (or use the included Maven Wrapper)
 
 ### Running the Application

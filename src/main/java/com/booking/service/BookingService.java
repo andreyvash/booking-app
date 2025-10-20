@@ -9,7 +9,6 @@ import com.booking.model.Booking;
 import com.booking.model.BookingStatus;
 import com.booking.model.Guest;
 import com.booking.repository.BookingRepository;
-import com.booking.repository.GuestRepository;
 import com.booking.validator.BookingValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +25,6 @@ import java.util.UUID;
 public class BookingService {
 
     private final BookingRepository bookingRepository;
-    private final GuestRepository guestRepository;
     private final GuestService guestService;
     private final BookingValidator bookingValidator;
 
@@ -39,7 +37,7 @@ public class BookingService {
         Booking booking = createBookingReservation(request);
         log.info("Booking created successfully with id: {}", booking.getId());
 
-        Guest guest = getGuestOrThrow(booking.getGuestId());
+        Guest guest = guestService.getGuestOrThrow(booking.getGuestId());
         return BookingResponse.fromModel(booking, guest);
     }
 
@@ -47,7 +45,7 @@ public class BookingService {
     public BookingResponse getBooking(UUID bookingId) {
         log.info("Fetching booking with id: {}", bookingId);
         Booking booking = getBookingOrThrow(bookingId);
-        Guest guest = getGuestOrThrow(booking.getGuestId());
+        Guest guest = guestService.getGuestOrThrow(booking.getGuestId());
         return BookingResponse.fromModel(booking, guest);
     }
 
@@ -60,9 +58,21 @@ public class BookingService {
         List<Booking> bookings = bookingRepository.findByPropertyId(propertyId);
         return bookings.stream()
                 .map(booking -> {
-                    Guest guest = getGuestOrThrow(booking.getGuestId());
+                    Guest guest = guestService.getGuestOrThrow(booking.getGuestId());
                     return BookingResponse.fromModel(booking, guest);
                 })
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<BookingResponse> getBookingsByGuestId(UUID guestId) {
+        log.info("Fetching bookings for guest id: {}", guestId);
+        
+        var guest = guestService.getGuestOrThrow(guestId);
+        
+        List<Booking> bookings = bookingRepository.findByGuestId(guestId);
+        return bookings.stream()
+                .map(booking -> BookingResponse.fromModel(booking, guest))
                 .toList();
     }
 
@@ -85,7 +95,7 @@ public class BookingService {
         booking = bookingRepository.save(booking);
         log.info("Booking updated successfully with id: {}", booking.getId());
 
-        Guest guest = getGuestOrThrow(booking.getGuestId());
+        Guest guest = guestService.getGuestOrThrow(booking.getGuestId());
         return BookingResponse.fromModel(booking, guest);
     }
 
@@ -103,7 +113,7 @@ public class BookingService {
         booking = bookingRepository.save(booking);
         log.info("Booking cancelled successfully with id: {}", booking.getId());
 
-        Guest guest = getGuestOrThrow(booking.getGuestId());
+        Guest guest = guestService.getGuestOrThrow(booking.getGuestId());
         return BookingResponse.fromModel(booking, guest);
     }
 
@@ -125,7 +135,7 @@ public class BookingService {
         booking = bookingRepository.save(booking);
         log.info("Booking rebooked successfully with id: {}", booking.getId());
 
-        Guest guest = getGuestOrThrow(booking.getGuestId());
+        Guest guest = guestService.getGuestOrThrow(booking.getGuestId());
         return BookingResponse.fromModel(booking, guest);
     }
 
@@ -179,8 +189,4 @@ public class BookingService {
                 .orElseThrow(() -> new ResourceNotFoundException("Booking not found with id: " + bookingId));
     }
 
-    private Guest getGuestOrThrow(UUID guestId) {
-        return guestRepository.findById(guestId)
-                .orElseThrow(() -> new ResourceNotFoundException("Guest not found with id: " + guestId));
-    }
 }
