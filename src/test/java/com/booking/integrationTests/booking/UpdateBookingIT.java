@@ -53,6 +53,8 @@ class UpdateBookingIT extends BaseIntegrationTest {
                 .hasId(testBooking.getId())
                 .hasPropertyId(testProperty.getId())
                 .hasGuestId(testGuest.getId())
+                .hasGuestFirstName(testGuest.getFirstName())
+                .hasGuestLastName(testGuest.getLastName())
                 .hasStartDate(request.getStartDate())
                 .hasEndDate(request.getEndDate())
                 .isConfirmed();
@@ -79,6 +81,8 @@ class UpdateBookingIT extends BaseIntegrationTest {
 
         BookingAssertion.assertThat(response)
                 .hasId(testBooking.getId())
+                .hasGuestFirstName("Updated")
+                .hasGuestLastName("Guest")
                 .hasStartDate(testBooking.getStartDate())
                 .hasEndDate(testBooking.getEndDate());
     }
@@ -106,6 +110,8 @@ class UpdateBookingIT extends BaseIntegrationTest {
 
         BookingAssertion.assertThat(response)
                 .hasId(testBooking.getId())
+                .hasGuestFirstName("New")
+                .hasGuestLastName("Guest")
                 .hasStartDate(request.getStartDate())
                 .hasEndDate(request.getEndDate());
     }
@@ -227,6 +233,8 @@ class UpdateBookingIT extends BaseIntegrationTest {
         );
 
         BookingAssertion.assertThat(response)
+                .hasGuestFirstName(testGuest.getFirstName())
+                .hasGuestLastName(testGuest.getLastName())
                 .hasStartDate(request.getStartDate())
                 .hasEndDate(testBooking.getEndDate());
     }
@@ -249,6 +257,8 @@ class UpdateBookingIT extends BaseIntegrationTest {
         );
 
         BookingAssertion.assertThat(response)
+                .hasGuestFirstName(testGuest.getFirstName())
+                .hasGuestLastName(testGuest.getLastName())
                 .hasStartDate(testBooking.getStartDate())
                 .hasEndDate(request.getEndDate());
     }

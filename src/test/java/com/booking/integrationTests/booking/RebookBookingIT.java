@@ -41,6 +41,16 @@ class RebookBookingIT extends BaseIntegrationTest {
                 BookingResponse.class
         );
 
+        BookingAssertion.assertThat(rebookResponse)
+                .hasId(cancelledBooking.getId())
+                .hasPropertyId(testProperty.getId())
+                .hasGuestId(testGuest.getId())
+                .hasGuestFirstName(testGuest.getFirstName())
+                .hasGuestLastName(testGuest.getLastName())
+                .hasStartDate(cancelledBooking.getStartDate())
+                .hasEndDate(cancelledBooking.getEndDate())
+                .isConfirmed();
+
         MvcResult getResult = mockMvc.perform(get("/api/bookings/{bookingId}", cancelledBooking.getId()))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -54,6 +64,8 @@ class RebookBookingIT extends BaseIntegrationTest {
                 .hasId(cancelledBooking.getId())
                 .hasPropertyId(testProperty.getId())
                 .hasGuestId(testGuest.getId())
+                .hasGuestFirstName(testGuest.getFirstName())
+                .hasGuestLastName(testGuest.getLastName())
                 .hasStartDate(cancelledBooking.getStartDate())
                 .hasEndDate(cancelledBooking.getEndDate())
                 .isConfirmed();
@@ -144,6 +156,8 @@ class RebookBookingIT extends BaseIntegrationTest {
         );
 
         BookingAssertion.assertThat(response)
+                .hasGuestFirstName(testGuest.getFirstName())
+                .hasGuestLastName(testGuest.getLastName())
                 .hasStartDate(originalStartDate)
                 .hasEndDate(originalEndDate);
     }
@@ -162,7 +176,9 @@ class RebookBookingIT extends BaseIntegrationTest {
 
         BookingAssertion.assertThat(response)
                 .hasPropertyId(testProperty.getId())
-                .hasGuestId(testGuest.getId());
+                .hasGuestId(testGuest.getId())
+                .hasGuestFirstName(testGuest.getFirstName())
+                .hasGuestLastName(testGuest.getLastName());
     }
 
     @Test
@@ -190,6 +206,8 @@ class RebookBookingIT extends BaseIntegrationTest {
 
         BookingAssertion.assertThat(response)
                 .hasId(cancelledBooking.getId())
+                .hasGuestFirstName(testGuest.getFirstName())
+                .hasGuestLastName(testGuest.getLastName())
                 .isConfirmed();
     }
 }

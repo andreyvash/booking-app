@@ -55,6 +55,8 @@ class CreateBookingIT extends BaseIntegrationTest {
                 .hasId(createResponse.getId())
                 .hasPropertyId(testProperty.getId())
                 .hasGuestId()
+                .hasGuestFirstName("New")
+                .hasGuestLastName("Guest")
                 .hasStartDate(request.getStartDate())
                 .hasEndDate(request.getEndDate())
                 .isConfirmed();
@@ -92,7 +94,9 @@ class CreateBookingIT extends BaseIntegrationTest {
         );
 
         BookingAssertion.assertThat(getResponse)
-                .hasGuestId(testGuest.getId());
+                .hasGuestId(testGuest.getId())
+                .hasGuestFirstName(testGuest.getFirstName())
+                .hasGuestLastName(testGuest.getLastName());
     }
 
     @Test
@@ -273,6 +277,8 @@ class CreateBookingIT extends BaseIntegrationTest {
 
         BookingAssertion.assertThat(getResponse)
                 .hasId(createResponse.getId())
+                .hasGuestFirstName("New")
+                .hasGuestLastName("Guest")
                 .isConfirmed();
     }
 }

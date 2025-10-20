@@ -19,11 +19,6 @@ public class BookingAssertion {
         return new BookingAssertion(response);
     }
 
-    public BookingAssertion hasId() {
-        Assertions.assertThat(response.getId()).isNotNull();
-        return this;
-    }
-
     public BookingAssertion hasId(UUID id) {
         Assertions.assertThat(response.getId()).isEqualTo(id);
         return this;
@@ -66,4 +61,15 @@ public class BookingAssertion {
     public BookingAssertion isCanceled() {
         return hasStatus(BookingStatus.CANCELED);
     }
+
+    public BookingAssertion hasGuestFirstName(String firstName) {
+        Assertions.assertThat(response.getGuestFirstName()).isEqualTo(firstName);
+        return this;
+    }
+
+    public BookingAssertion hasGuestLastName(String lastName) {
+        Assertions.assertThat(response.getGuestLastName()).isEqualTo(lastName);
+        return this;
+    }
+
 }

@@ -46,6 +46,8 @@ class CancelBookingIT extends BaseIntegrationTest {
                 .hasId(testBooking.getId())
                 .hasPropertyId(testProperty.getId())
                 .hasGuestId(testGuest.getId())
+                .hasGuestFirstName(testGuest.getFirstName())
+                .hasGuestLastName(testGuest.getLastName())
                 .hasStartDate(testBooking.getStartDate())
                 .hasEndDate(testBooking.getEndDate())
                 .isCanceled();
@@ -96,6 +98,8 @@ class CancelBookingIT extends BaseIntegrationTest {
         );
 
         BookingAssertion.assertThat(response)
+                .hasGuestFirstName(testGuest.getFirstName())
+                .hasGuestLastName(testGuest.getLastName())
                 .hasStartDate(originalStartDate)
                 .hasEndDate(originalEndDate);
     }
@@ -114,6 +118,8 @@ class CancelBookingIT extends BaseIntegrationTest {
 
         BookingAssertion.assertThat(response)
                 .hasPropertyId(testProperty.getId())
-                .hasGuestId(testGuest.getId());
+                .hasGuestId(testGuest.getId())
+                .hasGuestFirstName(testGuest.getFirstName())
+                .hasGuestLastName(testGuest.getLastName());
     }
 }
