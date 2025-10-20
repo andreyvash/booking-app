@@ -8,7 +8,7 @@ This application allows property owners to manage their properties and guests to
 
 ## Technology Stack
 
-- **Java 25**
+- **Java 21**
 - **Spring Boot 3.5.6**
 - **Spring Data JPA**
 - **H2 Database** (in-memory)
