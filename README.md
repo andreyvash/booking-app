@@ -229,6 +229,7 @@ Copy these IDs from the logs to use in your API requests or Postman environment 
 | `POST` | `/api/bookings` | Create a new booking |
 | `GET` | `/api/bookings/{id}` | Get booking by ID |
 | `GET` | `/api/bookings/property/{propertyId}` | Get all bookings for a property |
+| `GET` | `/api/bookings/guest/{guestId}` | Get all bookings for a guest |
 | `PATCH` | `/api/bookings/{id}` | Update booking (dates and/or guest) |
 | `PATCH` | `/api/bookings/{id}/cancel` | Cancel a booking |
 | `PATCH` | `/api/bookings/{id}/rebook` | Rebook a canceled booking |
