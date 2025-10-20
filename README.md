@@ -375,6 +375,18 @@ The integration tests cover:
 - ✅ Canceled booking scenarios
 - ✅ Required field validation
 
+
+### Authentication and Authorization
+
+The current implementation handles owner authorization by requiring an `ownerId` in the request body or query parameters for block-related operations. While functional for this technical test, a production-ready application would require a more secure approach.
+
+**Proposed Enhancement:**
+- **Implement JWT-based authentication** using Spring Security.
+- An **authentication endpoint** (`/api/auth/login`) would be created where an owner can log in with their credentials (e.g., email and password) to receive a JSON Web Token (JWT).
+- For protected endpoints (like creating, updating, or deleting blocks), the client would send the JWT in the `Authorization` header (`Bearer <token>`).
+- The backend would validate the token and extract the owner's identity from it. This removes the need to manually pass `ownerId` in requests, making the API more secure and aligned with industry best practices.
+
+
 ## License
 
 This project is for educational purposes.
