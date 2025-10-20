@@ -375,18 +375,34 @@ The integration tests cover:
 - ✅ Canceled booking scenarios
 - ✅ Required field validation
 
+## Future Improvements
 
-### Authentication and Authorization
+While the current implementation fulfills the core requirements of the technical test, a production-grade application would benefit from the following enhancements:
 
-The current implementation handles owner authorization by requiring an `ownerId` in the request body or query parameters for block-related operations. While functional for this technical test, a production-ready application would require a more secure approach.
+### 1. Implement Full CRUD API for Properties and Owners
+
+The application currently relies on a `DataInitializer` to create sample properties and owners on startup. To make the application fully functional, dedicated REST endpoints for managing properties and owners should be created.
+
+**Proposed Endpoints:**
+- `POST /api/properties`: Create a new property.
+- `GET /api/properties/{id}`: Retrieve a property.
+- `PATCH /api/properties/{id}`: Update a property's details.
+- `DELETE /api/properties/{id}`: Remove a property.
+- Corresponding endpoints for `Owner` management.
+
+### 2. Enhance Concurrency Control with Pessimistic Locking
+
+The current implementation is vulnerable to a race condition if two users attempt to book the same property at the same time. Both requests could pass validation before either transaction is committed, resulting in a double booking.
+
+**Proposed Enhancement:**
+- **Implement Pessimistic Locking**: By applying a `PESSIMISTIC_WRITE` lock on the `Property` entity at the start of the booking transaction, the application can prevent this issue. The first transaction would lock the property row in the database, forcing any subsequent booking attempts for that same property to wait until the first transaction is complete. This guarantees that booking validations are always checked against the most up-to-date data, making the system robust against concurrency issues.
+
+### 3. Secure the API with JWT-Based Authentication
+
+The current authorization model for block management relies on passing an `ownerId` in the request, which is not secure. A production application requires a proper authentication and authorization mechanism.
 
 **Proposed Enhancement:**
 - **Implement JWT-based authentication** using Spring Security.
-- An **authentication endpoint** (`/api/auth/login`) would be created where an owner can log in with their credentials (e.g., email and password) to receive a JSON Web Token (JWT).
+- An **authentication endpoint** (e.g., `/api/auth/login`) would allow an owner to log in and receive a JSON Web Token (JWT).
 - For protected endpoints (like creating, updating, or deleting blocks), the client would send the JWT in the `Authorization` header (`Bearer <token>`).
-- The backend would validate the token and extract the owner's identity from it. This removes the need to manually pass `ownerId` in requests, making the API more secure and aligned with industry best practices.
-
-
-## License
-
-This project is for educational purposes.
+- The backend would validate the token and extract the owner's identity from it. This removes the need to pass `ownerId` in requests, making the API more secure and aligned with industry best practices.
